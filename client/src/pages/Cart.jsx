@@ -2,19 +2,20 @@ import React from "react"
 import { assets, dummyAddress } from "../assets/assets"
 import { useState,useEffect } from "react"
 import { useAppContext } from "../context/AppContext"
+import toast from "react-hot-toast"
 
 const Cart = () => {
     const { products, currency, cartItems, removeFromCart, getCartCount
-        , updateCartItem, navigate, getCartTotal } = useAppContext()
+        , updateCartItem, navigate, getCartTotal,axios,user,setCartItems } = useAppContext()
 
     const [cartArray, setCartArray] = useState([])
-    const [selectedAddress, setSelectedAddress] = useState(dummyAddress[0]);
+    const [addresses, setAddresses] = useState([])
+    const [selectedAddress, setSelectedAddress] = useState(null);
     const [paymentOptions, setPaymentOptions] = useState("COD")
-    const [showAddress, setShowAddress] = useState(dummyAddress)
+    const [showAddress, setShowAddress] = useState(false)
 
     const getCart = ()=>{
         let tempArray = []
-
         for(const key in cartItems){
             const product = products.find((item)=>item._id===key)
             product.quantity = cartItems[key]
@@ -22,9 +23,63 @@ const Cart = () => {
         }
         setCartArray(tempArray)
     }
+//    get the user address from db
+    const getUserAddress = async ()=>{
+        try {
+     const { data } = await axios.get(`/api/address/get?userId=${user._id}`);
+            if(data.success){
+                setAddresses(data.addresses)
+                if(data.addresses.length>0){
+                    setSelectedAddress(data.addresses[0])
+                }
+            }else{
+                    toast.error(data.message)
+                    console.log(data.message)
+                }
+            
+        } catch (error) {
+         toast.error(error.message ,)   
+         console.log(error)
+        }
+    }
 
     const placeOrder = async () =>{
+          try {
+             if(!selectedAddress){
+                return toast.error("please select an Address")
+             }
 
+            //  place order with cod
+            if(paymentOptions === "COD"){
+                const {data} = await axios.post('/api/order/cod',{userId:user._id,items :cartArray.map((item)=>({product:item._id,quantity:item.quantity})),
+                address:selectedAddress._id
+            })
+             if(data.success){
+                toast.success(data.message)
+                setCartItems({})
+                navigate('/my-orders')
+             }else{
+                toast.error(data.message)
+             }
+            }else{
+                //------------------ place order with stripe
+                const {data} = await axios.post('/api/order/stripe',{
+                    userId:user._id,
+                    items :cartArray.map((item)=>({product:item._id,quantity:item.quantity})),
+                    address:selectedAddress._id
+            })
+             if(data.success){
+               window.location.replace(data.url)
+             }else{
+                toast.error(data.message)
+             }
+            }
+
+          } catch (error) {
+            toast.error(error.message
+                
+            )
+          }
     }
 
     useEffect(()=>{
@@ -32,6 +87,12 @@ const Cart = () => {
         getCart()
        }
     }, [products,cartItems])
+
+    useEffect(()=>{
+       if(user){
+        getUserAddress();
+       }
+    },[user])
 
 
     return products.length>0 && cartItems ? (
@@ -53,7 +114,7 @@ const Cart = () => {
                             <div onClick={()=>{
                                 navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)
                             }} className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded overflow-hidden">
-                                <img className="max-w-full h-full object-cover" src={product.image[0]} alt={product.name} />
+                                <img className="max-w-full h-full object-cover" src={product.images[0]} alt={product.name} />
                             </div>
                             <div>
                                 <p className="hidden md:block font-semibold">{product.name}</p>
@@ -77,7 +138,7 @@ const Cart = () => {
                     </div>)
                 )}
 
-                <button onClick={()=>{navigate("/products}");scrollTo(0,0)}} className="group cursor-pointer flex items-center mt-8 gap-2 text-green-600 font-medium">
+                <button onClick={()=>{navigate("/products");scrollTo(0,0)}} className="group cursor-pointer flex items-center mt-8 gap-2 text-green-600 font-medium">
                     Continue Shopping
                     <img className="group-hover:translate-x-1
                     transition" src={assets.arrow_right_icon_colored} alt="" />
@@ -98,7 +159,7 @@ const Cart = () => {
                         </button>
                        {showAddress && (
     <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
-        {showAddress.map((addr) => (
+        {addresses.map((addr) => (
             <p
                 key={addr.street + addr.city} // Use a unique key
                 onClick={() => {
@@ -112,7 +173,7 @@ const Cart = () => {
         ))}
         <p
             onClick={() => navigate("/add-address")}
-            className="text-green-600 text-center cursor-pointer p-2 hover:bg-indigo-500/10"
+            className="text-green-600 text-center cursor-pointer p-1 hover:bg-indigo-500/10"
         >
             Add address
         </p>

@@ -22,7 +22,7 @@ export const sellerLogin = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
-        return res.json({ succes: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 }
 
@@ -32,7 +32,7 @@ export const sellerLogin = async (req, res) => {
 
 export const isSellerAuth = async (req, res) => {
     try {
-        return res.json({ succes: true })
+        return res.json({ success: true })
     } catch (error) {
         console.log(error.message)
         return res.json({ success: false, message: error.message })

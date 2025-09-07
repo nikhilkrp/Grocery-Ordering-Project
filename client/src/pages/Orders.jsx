@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../context/AppContext';
 import { assets, dummyOrders } from '../assets/assets';
+import toast from 'react-hot-toast';
 
 const Orders = () => {
-   const {currency} = useAppContext();
-   const [orders , setOrders] = useState([])
+    const { currency, axios } = useAppContext();
+    const [orders, setOrders] = useState([])
 
-   const  fetchOrders = async ()=>{
-    setOrders(dummyOrders)
-   }
 
-   useEffect(()=>{
-    fetchOrders();
-   },[])
-      
-   
+    const fetchOrders = async () => {
+        try {
+            const { data } = await axios.get('/api/order/seller');
+            if (data.success) {
+                setOrders(data.orders)
+            } else {
+                toast.error("not found")
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+    useEffect(() => {
+        fetchOrders();
+    }, [])
+
+
     return (
         <div className="md:p-10 p-4 space-y-4">
             <h2 className="text-lg font-medium">Orders List</h2>
@@ -34,8 +44,18 @@ const Orders = () => {
                     </div>
 
                     <div className="text-sm md:text-base text-black/60">
-                        <p className='font-medium mb-1 txet-black/80'>{order.address.firstName} {order.address.lastName}</p>
-                        <p>{order.address.street}, {order.address.city}, {order.address.state},{order.address.zipcode}, {order.address.country}</p>
+                        {order.address ? (
+                            <>
+                                <p className='font-medium mb-1 text-black/80'>
+                                    {order.address.firstName} {order.address.lastName}
+                                </p>
+                                <p>
+                                    {order.address.street}, {order.address.city}, {order.address.state}, {order.address.zipcode}, {order.address.country}
+                                </p>
+                            </>
+                        ) : (
+                            <p>No address provided</p>
+                        )}
                     </div>
 
                     <p className="font-medium text-base my-auto text-black/70">${order.amount}</p>

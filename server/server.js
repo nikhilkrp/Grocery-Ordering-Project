@@ -10,6 +10,7 @@ import connectCloudinary from "./configs/cloudinary.js";
 import cartRouter from "./routes/cartRoutes.js";
 import addressRouter from "./routes/addressRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+import { stripeWebHooks } from "./controllers/orderController.js";
 dotenv.config();
 
 
@@ -25,6 +26,10 @@ connectDB()
 
 // calling cloudinary Function
 connectCloudinary()
+
+// 
+
+app.post('/stripe',express.raw({type:'application/json'}),stripeWebHooks)
 
 
 // middleware configuration
@@ -57,24 +62,6 @@ app.use('/api/cart',cartRouter)
 app.use('/api/address',addressRouter)
 // order Route
 app.use('/api/order',orderRouter)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.listen(port,()=>{

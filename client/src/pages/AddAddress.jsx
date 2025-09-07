@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { assets } from '../assets/assets'
 import { useState } from 'react'
+import { toast } from "react-hot-toast";
+import { useAppContext } from '../context/AppContext';
 
 
 const InputField = ({ type, placeholder, name, handleChange, address }) => (
@@ -15,7 +17,8 @@ const InputField = ({ type, placeholder, name, handleChange, address }) => (
 )
 
 const AddAddress = () => {
-
+  const {axios,user,navigate} = useAppContext()
+  
 
   const [address, setAddress] = useState({
     firstName: '',
@@ -28,6 +31,8 @@ const AddAddress = () => {
     country: '',
     phone: ''
   })
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -36,9 +41,39 @@ const AddAddress = () => {
       [name]: value,
     }))
   }
+
+
+
+  useEffect(() => {
+  if(user){
+    setAddress(prev => ({ ...prev, userId: user._id }))
+  } else {
+    navigate('/cart')
+  }
+}, [user])
+
+
+
+
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    try {
+      const {data} = await axios.post('/api/address/add', {address, userId:user._id})
+      if(data.success){
+        toast.success(data.message)
+        navigate('/cart')
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
+  
+
+
   return (
     <div className='mt-16 pb-16'>
       <p className='text-2xl md:text-3xl text-gray-500'> Add Shipping<span className='font-semibold text-green-600'> Address</span></p>
@@ -49,7 +84,7 @@ const AddAddress = () => {
           <form onSubmit={onSubmitHandler} className='space-y-3 mt-6 text-sm w-full flex flex-col'>
             <div className='grid grid-cols-2 gap-4'>
               <InputField handleChange={handleChange} address={address} name="firstName" type="text" placeholder="First Name" />
-              <InputField handleChange={handleChange} address={address} name="firstName" type="text" placeholder="Last Name" />
+              <InputField handleChange={handleChange} address={address} name="lastName" type="text" placeholder="Last Name" />
             </div>
            
               <InputField handleChange={handleChange} address={address} name="email" type="email" placeholder="Email Address" />
@@ -65,7 +100,7 @@ const AddAddress = () => {
               <InputField handleChange={handleChange} address={address} name="country" type="text" placeholder="Country" />
             </div>
 
-            <InputField handleChange={handleChange} address={address} name="phoneNumber" type="number" placeholder="Phone Number" />
+            <InputField handleChange={handleChange} address={address} name="phone" type="number" placeholder="Phone Number" />
 
             <button className='w-full mt-6 bg-green-600 text-white py-3 hover:bg-green-500 transition cursor-pointer uppercase'>Save address</button>
           </form>

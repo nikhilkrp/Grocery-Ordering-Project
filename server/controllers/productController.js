@@ -9,11 +9,11 @@ export const addProduct = async (req, res) => {
         const images = req.files
         let imagesUrl = await Promise.all(
             images.map(async (item) => {
-                letresult = await cloudinary.uploader.upload(item.path, { resource_type: 'image' });
+                let result = await cloudinary.uploader.upload(item.path, { resource_type: 'image' });
                 return result.secure_url
             })
         )
-        await Product.create({ ...productData, images, imagesUrl })
+        await Product.create({ ...productData, images: imagesUrl })
         return res.json({ success: true, message: "Product Added" })
 
     } catch (error) {
@@ -23,12 +23,13 @@ export const addProduct = async (req, res) => {
 
 }
 
+
 // Get Product : /api/product/list
 export const productList = async (req, res) => {
-
     try {
         const products = await Product.find({})
         res.json({ success: true, products })
+        // console.log(products)
     } catch (error) {
         console.log(error.message);
         res.json({ success: false, message: error.message })

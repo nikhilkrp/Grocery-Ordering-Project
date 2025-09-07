@@ -5,14 +5,26 @@ import { dummyOrders } from '../assets/assets';
 const MyOrders = () => {
 
     const [myorders, setMyOrders] = useState([]);
-    const { currency } = useAppContext()
+    const { currency,axios,user } = useAppContext()
 
     const fetchMyorders = async () => {
-        setMyOrders(dummyOrders)
+       try {
+        const { data } = await axios.get(`/api/order/user?userId=${user._id}`);
+        console.log({data})
+        if(data.success){
+            // console.log("stuck here")
+            setMyOrders(data.orders)
+            // console.log(data.orders)
+        }
+       } catch (error) {
+        console.log("Order Cant Placed",error)
+       }
     }
     useEffect(() => {
-        fetchMyorders()
-    }, [])
+       if(user){
+         fetchMyorders()
+       }
+    }, [user])
 
     return (
         <div className='mt-16'>
@@ -33,7 +45,7 @@ const MyOrders = () => {
                             order.items.length !==index+1 && "border-b"} border-gray-300 flex flex-col md:flex-row md:items-center justify-between p-4 py-5md:gap-16 w-full max-w-4xl`}>
                                 <div className='flex items-center mb-4 md:mb-0'>
                                     <div className='bg-green-600/10 p-4 rounded-lg'>
-                                         <img src={item.product.image[0]} alt="" className='w-16 h-16' />
+                                         <img src={item.product.images[0]} alt="" className='w-16 h-16' />
                                     </div>
                                 </div>
 

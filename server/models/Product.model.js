@@ -18,17 +18,16 @@ const productSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
-    image:{
+    images:{
         type:Array,
         required:true
     },
     category:{
-        type:Array,
+        type:String,
         required:true
     },
     inStock:{
         type:Boolean,
-        required:true
     }
 
 },{timestamps:true})

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    userId :{type:String, required:true,ref:"user"},
+    userId :{type:String, required:true,ref:"User"},
     items:[{
         product:{
             type:String,
@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    status:{
+    address:{
         type:String,
         required:true,
         ref:'Address'
@@ -33,9 +33,9 @@ const orderSchema = new mongoose.Schema({
     isPaid:{
         type:Boolean,
         required:true,
-        default:"false"
+        // default:"false"
     }
 },{timestamps:true})
 
-const Order  = mongoose.model.Order || mongoose.model('Order',orderSchema)
+const Order  = mongoose.models.Order || mongoose.model('Order',orderSchema)
 export default Order
