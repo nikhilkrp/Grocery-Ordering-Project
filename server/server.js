@@ -42,8 +42,8 @@ app.use(express.json())
 // here we will add origin which can acccess this server
 app.use(cors({
    origin:[
-    //'http://localhost:5173',
-    'https://grocery-ordering-project-bly3.vercel.app/'] ,
+    'http://localhost:5173',
+    'https://grocery-ordering-project-bly3.vercel.app'] ,
    credentials:true
 }))
 
