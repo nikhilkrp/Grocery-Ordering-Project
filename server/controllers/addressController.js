@@ -5,11 +5,12 @@ import Address from "../models/Address.model.js"
 // Add Address : /api/address/add
 export const addAddress = async (req, res) => {
     try {
+        console.log("📩 Request Body:", req.body); 
         const { address, userId } = req.body
         await Address.create({ ...address, userId })
         res.json({ success: true, message: "Address added SuccessFully" })
     } catch (error) {
-        console.log(error.message);
+        console.log("❌ Error:", error.message);
         res.json({ success: false, message: error.message })
 
     }
