@@ -10,7 +10,7 @@ export const addAddress = async (req, res) => {
         await Address.create({ ...address, userId })
         res.json({ success: true, message: "Address added SuccessFully" })
     } catch (error) {
-        console.log("❌ Error:", error.message);
+        // console.log("❌ Error:", error.message);
         res.json({ success: false, message: error.message })
 
     }
@@ -20,7 +20,8 @@ export const addAddress = async (req, res) => {
 // Get Address : /api/address/get
 export const getAddress = async (req, res) => {
     try {
-         const userId = req.query.userId;
+        //  const userId = req.query.userId;
+        const {userId} = req.query
         const addresses = await Address.find({ userId })
         // console.log(addresses)
         res.json({ success: true, addresses })
@@ -29,16 +30,3 @@ export const getAddress = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
-
-
-// Update Address : /api/address/update
-// export const updateAddress = async (req, res) => {
-//     try {
-//         const { userId, address } = req.body
-//         const addresses = await Address.findByIdAndUpdate({ userId, address })
-//         res.json({ success: true, addresses })
-//     } catch (error) {
-//         console.log(error.message);
-//         res.json({ success: false, message: error.message })
-//     }
-// }

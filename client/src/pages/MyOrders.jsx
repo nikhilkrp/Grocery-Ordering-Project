@@ -9,12 +9,9 @@ const MyOrders = () => {
 
     const fetchMyorders = async () => {
        try {
-        const { data } = await axios.get(`/api/order/user?userId=${user._id}`);
-        console.log({data})
+  const { data } = await axios.get(`/api/order/user?userId=${user._id}`);
         if(data.success){
-            // console.log("stuck here")
             setMyOrders(data.orders)
-            // console.log(data.orders)
         }
        } catch (error) {
         console.log("Order Cant Placed",error)

@@ -43,6 +43,9 @@ export const AppContextProvider = ({ children }) => {
               setuser(data.user)
               setCartItems(data.user.cartItems)  
             } 
+            else{
+                setuser(null)
+            }
         } catch (error) {
             setuser(null)
         }
@@ -120,6 +123,7 @@ export const AppContextProvider = ({ children }) => {
         return Math.floor(totalAmount * 100) / 100;
     }
 
+// use effect for to fetch seller user and products
     useEffect(() => {
         fetchUser()
         fetchSeller()

@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
         product:{
             type:String,
             required:true,
-            ref:'Product',
+            ref:'product',
         },
         quantity:{
             type:String,
@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema({
     address:{
         type:String,
         required:true,
-        ref:'Address'
+        ref:'address'
     },
     status:{
         type:String,
@@ -33,9 +33,9 @@ const orderSchema = new mongoose.Schema({
     isPaid:{
         type:Boolean,
         required:true,
-        default:"false"
+        default:false
     }
 },{timestamps:true})
 
-const Order  = mongoose.models.Order || mongoose.model('Order',orderSchema)
+const Order  = mongoose.models.order || mongoose.model('order',orderSchema)
 export default Order

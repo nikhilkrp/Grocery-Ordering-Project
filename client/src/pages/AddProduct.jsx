@@ -14,6 +14,8 @@ const AddProduct = () => {
     const [offerPrice ,setOfferPrice] = useState("")
     const {axios} = useAppContext()
 
+
+    // function to add products 
     const onSubmitHandler = async (event) =>{
 
         try {
@@ -25,12 +27,12 @@ const AddProduct = () => {
                 price,
                 offerPrice
             }
-
             const formData = new FormData();
             formData.append('productData',JSON.stringify(productData));
             for(let i = 0; i<files.length; i++){
                 formData.append('images',files[i])
             }
+            // api acall to add products
             const {data} =await axios.post('/api/products/add',formData)
             if(data.success){
                 toast.success(data.message);

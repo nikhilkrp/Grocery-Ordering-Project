@@ -10,9 +10,11 @@ const Login = () => {
     const [password, setPassword] = React.useState("");
     const {setShowUserLogin, setuser,axios,navigate} = useAppContext()
 
+
+    // function for user login 
     const onSubmitHandler = async (event) =>{
+         event.preventDefault();
       try {
-        event.preventDefault();
         const {data} = await axios.post(`/api/user/${state}`,{name,email,password});
         if (data.success) {
             navigate('/')

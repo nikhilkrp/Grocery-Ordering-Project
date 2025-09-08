@@ -23,7 +23,7 @@ const ProductDetails = () => {
     }, [])
     // set thumbnail to first image when product changes
     useEffect(() => {
-        setThumbnail(product?.image[0] ? product.image[0] : null)
+        setThumbnail(product?.images[0] ? product.images[0] : null)
     }, [product])
 
     return product && (
@@ -38,7 +38,7 @@ const ProductDetails = () => {
             <div className="flex flex-col md:flex-row gap-16 mt-4">
                 <div className="flex gap-3">
                     <div className="flex flex-col gap-3">
-                        {product.image.map((image, index) => (
+                        {product.images.map((image, index) => (
                             <div key={index} onClick={() => setThumbnail(image)} className="border max-w-24 border-green-500/30 rounded overflow-hidden cursor-pointer" >
                                 <img src={image} alt={`Thumbnail ${index + 1}`} />
                             </div>

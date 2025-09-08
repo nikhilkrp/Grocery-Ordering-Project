@@ -15,11 +15,11 @@ const ProductList = () => {
                 toast.success(data.message)  
             } else {
                 toast.error(data.message,)
-                console.log("error1")
+                // console.log("error1")
             }
 
         } catch (error) {
-            console.log("error")
+            // console.log("error")
             toast.error(error.message)
         }
     }

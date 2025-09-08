@@ -6,7 +6,7 @@ import { useAppContext } from '../context/AppContext';
 
 
 const InputField = ({ type, placeholder, name, handleChange, address }) => (
-  <input className='w-fulll pc-2 py-2.5 border border-gray-500/30 rounded outline-nonetext-gray-500 focus:border-green-500 transition'
+  <input className='w-fulll px-2 py-2.5 border border-gray-500/30 rounded outline-nonetext-gray-500 focus:border-green-500 transition'
     type={type}
     placeholder={placeholder}
     name={name}
@@ -27,7 +27,7 @@ const AddAddress = () => {
     street: '',
     city: '',
     state: '',
-    zipcode: '',
+    zipcode:Number,
     country: '',
     phone: ''
   })
@@ -59,9 +59,8 @@ const AddAddress = () => {
 
     try {
 
-      const {data} = await axios.post('/api/address/add', {address, userId : user._id})
+      const {data} = await axios.post('/api/address/add', {userId : user._id, address})
       if(data.success){
-          //  console.log("hjk")
         toast.success(data.message)
         navigate('/cart')
         

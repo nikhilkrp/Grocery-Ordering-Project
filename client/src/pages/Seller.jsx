@@ -15,7 +15,7 @@ const Seller = () => {
     ];
 
 
-     // logout function
+     // logout function for selller
     const logout = async () => {
        try {
         const {data} = await axios.get('/api/seller/logout')
