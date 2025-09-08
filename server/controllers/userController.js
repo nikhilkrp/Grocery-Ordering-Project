@@ -81,7 +81,8 @@ export const login = async (req, res) => {
 
 export const isAuth = async (req, res) => {
     try {
-        const user = await User.findById(req.user).select("-password");
+        const {userId} = req.body;
+        const user = await User.findById(userId).select("-password");
         if (!user) {
             return res.json({ success: false, message: "User not found" });
         }
