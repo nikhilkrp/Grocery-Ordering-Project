@@ -114,7 +114,7 @@ const Cart = () => {
                         <div className="flex items-center md:gap-6 gap-3">
                             <div onClick={() => {
                                 navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0, 0)
-                            }} className="cursor-pointer w-24 h-24 flex items-center justify-center border border-green-500 rounded overflow-hidden">
+                            }} className="cursor-pointer w-24 h-24 flex items-center justify-center border border-green-600 rounded overflow-hidden">
                                 <img className="max-w-full h-full object-cover" src={product.images[0]} alt={product.name} />
                             </div>
                             <div>
