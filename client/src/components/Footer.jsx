@@ -19,11 +19,11 @@ const Footer = () => {
     ];
 
     return (
-        <div className="px-6 md:px-16 lg:px-24 xl:px-32 bg-green-100/50 mt-32 rounded-lg">
+        <div className="px-6 md:px-16 lg:px-24 xl:px-32 bg-green-400/50 mt-32 rounded-lg text-black">
             <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-gray-500/30 text-gray-500">
                 <div>
                     <img className=" w-34 md:w-32" src={assets.logo} alt="dummyLogoColored" />
-                    <p className="max-w-[410px] mt-6">We deliver fresh groceries and snacks straight to your door. Trusted by thousands, we aim to make your shopping experience simple and affordable.</p>
+                    <p className="max-w-[410px] mt-6 text-black">We deliver fresh groceries and snacks straight to your door. Trusted by thousands, we aim to make your shopping experience simple and affordable.</p>
                 </div>
                 <div className="flex flex-wrap justify-between w-full md:w-[45%] gap-5">
                     {linkSections.map((section, index) => (
@@ -32,7 +32,7 @@ const Footer = () => {
                             <ul className="text-sm space-y-1">
                                 {section.links.map((link, i) => (
                                     <li key={i}>
-                                        <a href="#" className="hover:underline transition">{link}</a>
+                                        <a href="#" className="hover:underline transition text-black">{link}</a>
                                     </li>
                                 ))}
                             </ul> 
@@ -40,7 +40,7 @@ const Footer = () => {
                     ))}
                 </div>
             </div>
-            <p className="py-4 text-center text-sm md:text-base text-gray-500/80">
+            <p className="py-4 text-center text-sm md:text-base text-gray-900/80">
                 Copyright 2025 © <a href="https://prebuiltui.com">GrrenCart</a> All Right Reserved.
             </p>
         </div>

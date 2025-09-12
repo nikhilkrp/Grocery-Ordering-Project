@@ -13,7 +13,7 @@ const Home = () => {
     if(onlineStatus===false)return <h1 className="text-red-600 flex items-center align-middle p-32 font-bold text-2xl" >Looks Like you are Offline</h1>
 
     return (
-        <div className="mt-10">
+        <div className="mt-10 ">
             <MainBanner />
             <Categories/>
             <Bestseller/>
