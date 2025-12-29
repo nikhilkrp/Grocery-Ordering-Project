@@ -1,6 +1,13 @@
-# Grocery App
 
-Full-stack Grocery App with **React.js + Tailwind CSS** frontend and **Node.js + Express + MongoDB** backend. Users can browse products, manage cart, place orders (COD & Stripe), and admins can manage products.
+<p align="center">
+  <h1 align="center">🛒 Grocery App</h1>
+  <p align="center">
+    A full-stack grocery shopping application built with <b>React.js & Tailwind CSS</b> on the frontend and <b>Node.js, Express & MongoDB</b> on the backend, featuring cart management, secure checkout (COD & Stripe), and admin product controls.
+  </p>
+</p>
+<p align="center">
+  <img src="./public/GreenCart.png" alt="Grocery App Preview" width="800"/>
+</p>
 
 ---
 
