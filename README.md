@@ -6,7 +6,7 @@
   </p>
 </p>
 <p align="center">
-  <img src="./public/GreenCart.png" alt="Grocery App Preview" width="800"/>
+  <img src="./client/GreenCart.png" alt="Grocery App Preview" width="800"/>
 </p>
 
 ---
